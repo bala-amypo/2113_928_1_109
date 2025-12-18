@@ -1,13 +1,13 @@
-spring.application.name=sql
+package com.example.demo;
 
-server.port=9001
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-spring.datasource.url=jdbc:mysql://localhost:3306/transport_pro?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-spring.datasource.username=root
-spring.datasource.password=Amypo
-spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+@SpringBootApplication
+public class DemoApplication {
 
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-spring.jpa.properties.hibernate.format_sql=true
-spring.jpa.database-platform=org.hibernate.dialect.MySQL8Dialect
+	public static void main(String[] args) {
+		SpringApplication.run(DemoApplication.class, args);
+	}
+
+}
