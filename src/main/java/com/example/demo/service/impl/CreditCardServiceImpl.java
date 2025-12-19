@@ -1,38 +1,28 @@
-package com.example.demo.service;
-
-import java.util.List;
-
-import org.springframework.stereotype.Service;
+package com.example.demo.service.impl;
 
 import com.example.demo.entity.CreditCardEntity;
 import com.example.demo.repository.CreditCardRepository;
+import com.example.demo.service.CreditCardService;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
-public class CreditCardServiceImpl {
+public class CreditCardServiceImpl implements CreditCardService {
 
-    private final CreditCardRepository creditCardRepository;
+    private final CreditCardRepository repository;
 
-    public CreditCardServiceImpl(CreditCardRepository creditCardRepository) {
-        this.creditCardRepository = creditCardRepository;
+    public CreditCardServiceImpl(CreditCardRepository repository) {
+        this.repository = repository;
     }
 
-    public CreditCardEntity addCard(CreditCardEntity card) {
-        if (creditCardRepository.existsByCardName(card.getCardName())) {
-            throw new RuntimeException("Credit card already exists");
-        }
-        return creditCardRepository.save(card);
+    @Override
+    public CreditCardEntity save(CreditCardEntity entity) {
+        return repository.save(entity);
     }
 
-    public List<CreditCardEntity> getAllCards() {
-        return creditCardRepository.findAll();
-    }
-
-    public CreditCardEntity getCardById(Long id) {
-        return creditCardRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Credit card not found"));
-    }
-
-    public void deleteCard(Long id) {
-        creditCardRepository.deleteById(id);
+    @Override
+    public List<CreditCardEntity> getAll() {
+        return repository.findAll();
     }
 }
