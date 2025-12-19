@@ -3,38 +3,39 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "recommendations")
+@Table(name = "recommendation")
 public class RecommendationEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String recommendationText;
+    private String recommendedCard;
+
     private double expectedReward;
 
-    public RecommendationEntity() {}
+    /* Getters & Setters */
 
     public Long getId() {
         return id;
     }
-
+ 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public String getRecommendationText() {
-        return recommendationText;
+    public String getRecommendedCard() {
+        return recommendedCard;
     }
-
-    public void setRecommendationText(String recommendationText) {
-        this.recommendationText = recommendationText;
+ 
+    public void setRecommendedCard(String recommendedCard) {
+        this.recommendedCard = recommendedCard;
     }
 
     public double getExpectedReward() {
         return expectedReward;
     }
-
+ 
     public void setExpectedReward(double expectedReward) {
         this.expectedReward = expectedReward;
     }

@@ -1,18 +1,31 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
-@Table(name = "user_profiles")
+@Table(name = "user_profile")
 public class UserProfileEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Username cannot be empty")
     private String username;
 
-    public UserProfileEntity() {}
+    @Email(message = "Invalid email format")
+    @NotBlank(message = "Email cannot be empty")
+    private String email;
+
+    @Size(min = 6, message = "Password must be at least 6 characters")
+    private String password;
+
+    private boolean active = true;
+
+    /* Getters & Setters */
 
     public Long getId() {
         return id;
@@ -28,5 +41,29 @@ public class UserProfileEntity {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+ 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+ 
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
