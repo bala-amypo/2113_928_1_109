@@ -10,19 +10,19 @@ import java.util.List;
 @RequestMapping("/reward-rules")
 public class RewardRuleController {
 
-    private final RewardRuleService service;
+private final RewardRuleService rewardRuleService;
 
-    public RewardRuleController(RewardRuleService service) {
-        this.service = service;
-    }
+public RewardRuleController(RewardRuleService rewardRuleService) {
+this.rewardRuleService = rewardRuleService;
+}
 
-    @PostMapping
-    public RewardRuleEntity save(@RequestBody RewardRuleEntity entity) {
-        return service.save(entity);
-    }
+@PostMapping
+public RewardRuleEntity save(@RequestBody RewardRuleEntity rule) {
+return rewardRuleService.save(rule);
+}
 
-    @GetMapping
-    public List<RewardRuleEntity> getAll() {
-        return service.getAll();
-    }
+@GetMapping
+public List<RewardRuleEntity> getAll() {
+return rewardRuleService.getAll();
+}
 }

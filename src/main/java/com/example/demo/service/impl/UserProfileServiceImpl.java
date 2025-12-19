@@ -1,34 +1,28 @@
-package com.example.demo.service;
-
-import java.util.List;
-
-import org.springframework.stereotype.Service;
+package com.example.demo.service.impl;
 
 import com.example.demo.entity.UserProfileEntity;
 import com.example.demo.repository.UserProfileRepository;
+import com.example.demo.service.UserProfileService;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
-public class UserProfileServiceImpl {
+public class UserProfileServiceImpl implements UserProfileService {
 
-    private final UserProfileRepository userRepository;
+    private final UserProfileRepository repository;
 
-    public UserProfileServiceImpl(UserProfileRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserProfileServiceImpl(UserProfileRepository repository) {
+        this.repository = repository;
     }
 
-    public UserProfileEntity createUser(UserProfileEntity user) {
-        if (userRepository.existsByEmail(user.getEmail())) {
-            throw new RuntimeException("Email already exists");
-        }
-        return userRepository.save(user);
+    @Override
+    public UserProfileEntity save(UserProfileEntity entity) {
+        return repository.save(entity);
     }
 
-    public List<UserProfileEntity> getAllUsers() {
-        return userRepository.findAll();
-    }
-
-    public UserProfileEntity getUserById(Long id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    @Override
+    public List<UserProfileEntity> getAll() {
+        return repository.findAll();
     }
 }

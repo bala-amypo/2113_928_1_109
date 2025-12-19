@@ -10,19 +10,19 @@ import java.util.List;
 @RequestMapping("/credit-cards")
 public class CreditCardController {
 
-    private final CreditCardService creditCardService;
+private final CreditCardService creditCardService;
 
-    public CreditCardController(CreditCardService creditCardService) {
-        this.creditCardService = creditCardService;
-    }
+public CreditCardController(CreditCardService creditCardService) {
+this.creditCardService = creditCardService;
+}
 
-    @PostMapping
-    public CreditCardEntity save(@RequestBody CreditCardEntity card) {
-        return creditCardService.save(card);
-    }
+@PostMapping
+public CreditCardEntity save(@RequestBody CreditCardEntity card) {
+return creditCardService.save(card);
+}
 
-    @GetMapping
-    public List<CreditCardEntity> getAll() {
-        return creditCardService.getAll();
-    }
+@GetMapping
+public List<CreditCardEntity> getAll() {
+return creditCardService.getAll();
+}
 }

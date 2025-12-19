@@ -10,19 +10,14 @@ import java.util.List;
 @RequestMapping("/recommendations")
 public class RecommendationController {
 
-    private final RecommendationService service;
+private final RecommendationService recommendationService;
 
-    public RecommendationController(RecommendationService service) {
-        this.service = service;
-    }
+public RecommendationController(RecommendationService recommendationService) {
+this.recommendationService = recommendationService;
+}
 
-    @PostMapping
-    public RecommendationEntity save(@RequestBody RecommendationEntity entity) {
-        return service.save(entity);
-    }
-
-    @GetMapping
-    public List<RecommendationEntity> getAll() {
-        return service.getAll();
-    }
+@GetMapping
+public List<RecommendationEntity> getAll() {
+return recommendationService.getAll();
+}
 }

@@ -1,51 +1,28 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
-import java.util.Comparator;
-import java.util.List;
-
+import com.example.demo.entity.RecommendationEntity;
+import com.example.demo.repository.RecommendationRepository;
+import com.example.demo.service.RecommendationService;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.entity.CreditCardEntity;
-import com.example.demo.entity.RecommendationEntity;
-import com.example.demo.entity.UserProfileEntity;
-import com.example.demo.repository.CreditCardRepository;
-import com.example.demo.repository.RecommendationRepository;
+import java.util.List;
 
 @Service
-public class RecommendationServiceImpl {
+public class RecommendationServiceImpl implements RecommendationService {
 
-    private final RecommendationRepository recommendationRepository;
-    private final CreditCardRepository creditCardRepository;
+    private final RecommendationRepository repository;
 
-    public RecommendationServiceImpl(RecommendationRepository recommendationRepository,
-                                     CreditCardRepository creditCardRepository) {
-        this.recommendationRepository = recommendationRepository;
-        this.creditCardRepository = creditCardRepository;
+    public RecommendationServiceImpl(RecommendationRepository repository) {
+        this.repository = repository;
     }
 
-    // CORE LOGIC: find best credit card
-    public RecommendationEntity recommendBestCard(UserProfileEntity user,
-                                                   Double purchaseAmount) {
-
-        List<CreditCardEntity> cards = creditCardRepository.findAll();
-
-        CreditCardEntity bestCard = cards.stream()
-                .max(Comparator.comparing(
-                        c -> c.getRewardRate() * purchaseAmount
-                ))
-                .orElseThrow(() -> new RuntimeException("No cards available"));
-
-        RecommendationEntity recommendation = new RecommendationEntity();
-        recommendation.setUser(user);
-        recommendation.setRecommendedCard(bestCard);
-        recommendation.setExpectedReward(
-                bestCard.getRewardRate() * purchaseAmount
-        );
-
-        return recommendationRepository.save(recommendation);
+    @Override
+    public RecommendationEntity save(RecommendationEntity entity) {
+        return repository.save(entity);
     }
 
-    public List<RecommendationEntity> getAllRecommendations() {
-        return recommendationRepository.findAll();
+    @Override
+    public List<RecommendationEntity> getAll() {
+        return repository.findAll();
     }
 }

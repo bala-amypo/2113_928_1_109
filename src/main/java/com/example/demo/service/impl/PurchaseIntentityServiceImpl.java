@@ -1,39 +1,28 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
+
+import com.example.demo.entity.PurchaseIntentEntity;
+import com.example.demo.repository.PurchaseIntentRepository;
+import com.example.demo.service.PurchaseIntentService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
-import com.example.demo.entity.PurchaseIntentity;
-import com.example.demo.entity.UserProfileEntity;
-import com.example.demo.repository.PurchaseIntentityRepository;
-
 @Service
-public class PurchaseIntentityServiceImpl {
+public class PurchaseIntentServiceImpl implements PurchaseIntentService {
 
-    private final PurchaseIntentityRepository purchaseRepository;
+    private final PurchaseIntentRepository repository;
 
-    public PurchaseIntentityServiceImpl(PurchaseIntentityRepository purchaseRepository) {
-        this.purchaseRepository = purchaseRepository;
+    public PurchaseIntentServiceImpl(PurchaseIntentRepository repository) {
+        this.repository = repository;
     }
 
-    public PurchaseIntentity addPurchase(PurchaseIntentity purchase) {
-        if (purchase.getAmount() <= 0) {
-            throw new RuntimeException("Purchase amount must be greater than zero");
-        }
-        return purchaseRepository.save(purchase);
+    @Override
+    public PurchaseIntentEntity save(PurchaseIntentEntity entity) {
+        return repository.save(entity);
     }
 
-    public List<PurchaseIntentity> getAllPurchases() {
-        return purchaseRepository.findAll();
-    }
-
-    public List<PurchaseIntentity> getPurchasesByUser(UserProfileEntity user) {
-        return purchaseRepository.findByUser(user);
-    }
-
-    public PurchaseIntentity getPurchaseById(Long id) {
-        return purchaseRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Purchase not found"));
+    @Override
+    public List<PurchaseIntentEntity> getAll() {
+        return repository.findAll();
     }
 }

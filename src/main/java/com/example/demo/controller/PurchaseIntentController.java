@@ -10,19 +10,19 @@ import java.util.List;
 @RequestMapping("/purchase-intents")
 public class PurchaseIntentController {
 
-    private final PurchaseIntentService service;
+private final PurchaseIntentService purchaseIntentService;
 
-    public PurchaseIntentController(PurchaseIntentService service) {
-        this.service = service;
-    }
+public PurchaseIntentController(PurchaseIntentService purchaseIntentService) {
+this.purchaseIntentService = purchaseIntentService;
+}
 
-    @PostMapping
-    public PurchaseIntentEntity save(@RequestBody PurchaseIntentEntity entity) {
-        return service.save(entity);
-    }
+@PostMapping
+public PurchaseIntentEntity save(@RequestBody PurchaseIntentEntity intent) {
+return purchaseIntentService.save(intent);
+}
 
-    @GetMapping
-    public List<PurchaseIntentEntity> getAll() {
-        return service.getAll();
-    }
+@GetMapping
+public List<PurchaseIntentEntity> getAll() {
+return purchaseIntentService.getAll();
+}
 }

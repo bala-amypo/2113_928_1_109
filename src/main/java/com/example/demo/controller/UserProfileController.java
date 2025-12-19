@@ -7,22 +7,22 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user-profiles")
+@RequestMapping("/users")
 public class UserProfileController {
 
-    private final UserProfileService service;
+private final UserProfileService userProfileService;
 
-    public UserProfileController(UserProfileService service) {
-        this.service = service;
-    }
+public UserProfileController(UserProfileService userProfileService) {
+this.userProfileService = userProfileService;
+}
 
-    @PostMapping
-    public UserProfileEntity save(@RequestBody UserProfileEntity entity) {
-        return service.save(entity);
-    }
+@PostMapping
+public UserProfileEntity save(@RequestBody UserProfileEntity user) {
+return userProfileService.save(user);
+}
 
-    @GetMapping
-    public List<UserProfileEntity> getAll() {
-        return service.getAll();
-    }
+@GetMapping
+public List<UserProfileEntity> getAll() {
+return userProfileService.getAll();
+}
 }
