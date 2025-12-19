@@ -12,45 +12,34 @@ public class RewardRuleEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Category cannot be empty")
+    @NotBlank
     private String category;
 
-    @Positive(message = "Multiplier must be greater than zero")
+    @Positive
     private double multiplier;
 
     private boolean active = true;
 
+    @ManyToOne
+    @JoinColumn(name = "card_id")
+    private CreditCardEntity creditCard;
+
     /* Getters & Setters */
 
-    public Long getId() {
-        return id;
-    }
- 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public String getCategory() {
-        return category;
-    }
- 
-    public void setCategory(String category) {
-        this.category = category;
-    }
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
 
-    public double getMultiplier() {
-        return multiplier;
-    }
- 
-    public void setMultiplier(double multiplier) {
-        this.multiplier = multiplier;
-    }
+    public double getMultiplier() { return multiplier; }
+    public void setMultiplier(double multiplier) { this.multiplier = multiplier; }
 
-    public boolean isActive() {
-        return active;
-    }
- 
-    public void setActive(boolean active) {
-        this.active = active;
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
+
+    public CreditCardEntity getCreditCard() { return creditCard; }
+    public void setCreditCard(CreditCardEntity creditCard) {
+        this.creditCard = creditCard;
     }
 }

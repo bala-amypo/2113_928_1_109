@@ -3,7 +3,7 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Table(name = "user_profile")
@@ -13,57 +13,40 @@ public class UserProfileEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Username cannot be empty")
+    @NotBlank
     private String username;
 
-    @Email(message = "Invalid email format")
-    @NotBlank(message = "Email cannot be empty")
+    @Email
+    @NotBlank
     private String email;
 
-    @Size(min = 6, message = "Password must be at least 6 characters")
+    @NotBlank
     private String password;
 
     private boolean active = true;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<CreditCardEntity> creditCards;
+
     /* Getters & Setters */
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
 
-    public String getUsername() {
-        return username;
-    }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
 
-    public String getEmail() {
-        return email;
-    }
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
- 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
- 
-    public void setActive(boolean active) {
-        this.active = active;
+    public List<CreditCardEntity> getCreditCards() { return creditCards; }
+    public void setCreditCards(List<CreditCardEntity> creditCards) {
+        this.creditCards = creditCards;
     }
 }
