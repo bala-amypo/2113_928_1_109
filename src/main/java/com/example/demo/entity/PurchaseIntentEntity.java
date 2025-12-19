@@ -1,48 +1,32 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "purchase_intents")
 public class PurchaseIntentEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Double amount;
-    private String merchant;
+    private String intentType;
 
-    @ManyToOne
-    private User user;
+    public PurchaseIntentEntity() {}
 
-    @ManyToOne
-    private Category category;
-
-    private LocalDateTime purchaseDate;
-
-    @PrePersist
-    public void onCreate() {
-        this.purchaseDate = LocalDateTime.now();
+    public Long getId() {
+        return id;
     }
 
-    // getters & setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public Double getAmount() { return amount; }
-    public void setAmount(Double amount) { this.amount = amount; }
-
-    public String getMerchant() { return merchant; }
-    public void setMerchant(String merchant) { this.merchant = merchant; }
-
-    public User getUser() { return user; }
-    public void setUser(User user) { this.user = user; }
-
-    public Category getCategory() { return category; }
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public LocalDateTime getPurchaseDate() { return purchaseDate; }
+    public String getIntentType() {
+        return intentType;
+    }
+
+    public void setIntentType(String intentType) {
+        this.intentType = intentType;
+    }
 }

@@ -1,45 +1,41 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "recommendations")
 public class RecommendationEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private User user;
+    private String recommendationText;
+    private double expectedReward;
 
-    @ManyToOne
-    private CreditCard recommendedCard;
+    public RecommendationEntity() {}
 
-    private Double rewardPoints;
-    private LocalDateTime recommendedAt;
-
-    @PrePersist
-    public void onCreate() {
-        this.recommendedAt = LocalDateTime.now();
+    public Long getId() {
+        return id;
     }
 
-    // getters & setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public User getUser() { return user; }
-    public void setUser(User user) { this.user = user; }
-
-    public CreditCard getRecommendedCard() { return recommendedCard; }
-    public void setRecommendedCard(CreditCard recommendedCard) {
-        this.recommendedCard = recommendedCard;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public Double getRewardPoints() { return rewardPoints; }
-    public void setRewardPoints(Double rewardPoints) {
-        this.rewardPoints = rewardPoints;
+    public String getRecommendationText() {
+        return recommendationText;
     }
 
-    public LocalDateTime getRecommendedAt() { return recommendedAt; }
+    public void setRecommendationText(String recommendationText) {
+        this.recommendationText = recommendationText;
+    }
+
+    public double getExpectedReward() {
+        return expectedReward;
+    }
+
+    public void setExpectedReward(double expectedReward) {
+        this.expectedReward = expectedReward;
+    }
 }
