@@ -4,6 +4,9 @@ import com.example.demo.entity.RecommendationEntity;
 import java.util.List;
 
 public interface RecommendationService {
-    RecommendationEntity save(RecommendationEntity entity);
-    List<RecommendationEntity> getAll();
+
+    RecommendationEntity createRecommendation(RecommendationEntity recommendation);
+    RecommendationEntity getRecommendationById(Long id);
+    List<RecommendationEntity> getAllRecommendations();
+    void deleteRecommendation(Long id);
 }

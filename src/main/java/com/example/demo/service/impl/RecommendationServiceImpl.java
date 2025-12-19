@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.RecommendationEntity;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.RecommendationRepository;
 import com.example.demo.service.RecommendationService;
 import org.springframework.stereotype.Service;
@@ -17,12 +18,23 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     @Override
-    public RecommendationEntity save(RecommendationEntity entity) {
-        return repository.save(entity);
+    public RecommendationEntity createRecommendation(RecommendationEntity recommendation) {
+        return repository.save(recommendation);
     }
 
     @Override
-    public List<RecommendationEntity> getAll() {
+    public RecommendationEntity getRecommendationById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Recommendation not found with id " + id));
+    }
+
+    @Override
+    public List<RecommendationEntity> getAllRecommendations() {
         return repository.findAll();
+    }
+
+    @Override
+    public void deleteRecommendation(Long id) {
+        repository.delete(getRecommendationById(id));
     }
 }

@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.RewardRuleEntity;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.RewardRuleRepository;
 import com.example.demo.service.RewardRuleService;
 import org.springframework.stereotype.Service;
@@ -17,12 +18,32 @@ public class RewardRuleServiceImpl implements RewardRuleService {
     }
 
     @Override
-    public RewardRuleEntity save(RewardRuleEntity entity) {
-        return repository.save(entity);
+    public RewardRuleEntity createRule(RewardRuleEntity rule) {
+        return repository.save(rule);
     }
 
     @Override
-    public List<RewardRuleEntity> getAll() {
+    public RewardRuleEntity getRuleById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Reward rule not found with id " + id));
+    }
+
+    @Override
+    public List<RewardRuleEntity> getAllRules() {
         return repository.findAll();
+    }
+
+    @Override
+    public RewardRuleEntity updateRule(Long id, RewardRuleEntity rule) {
+        RewardRuleEntity existing = getRuleById(id);
+        existing.setCategory(rule.getCategory());
+        existing.setMultiplier(rule.getMultiplier());
+        existing.setActive(rule.isActive());
+        return repository.save(existing);
+    }
+
+    @Override
+    public void deleteRule(Long id) {
+        repository.delete(getRuleById(id));
     }
 }

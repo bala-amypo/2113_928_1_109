@@ -10,14 +10,30 @@ import java.util.List;
 @RequestMapping("/recommendations")
 public class RecommendationController {
 
-private final RecommendationService recommendationService;
+    private final RecommendationService service;
 
-public RecommendationController(RecommendationService recommendationService) {
-this.recommendationService = recommendationService;
-}
+    public RecommendationController(RecommendationService service) {
+        this.service = service;
+    }
 
-@GetMapping
-public List<RecommendationEntity> getAll() {
-return recommendationService.getAll();
-}
+    @PostMapping
+    public RecommendationEntity create(@RequestBody RecommendationEntity recommendation) {
+        return service.createRecommendation(recommendation);
+    }
+
+    @GetMapping("/{id}")
+    public RecommendationEntity getById(@PathVariable Long id) {
+        return service.getRecommendationById(id);
+    }
+
+    @GetMapping
+    public List<RecommendationEntity> getAll() {
+        return service.getAllRecommendations();
+    }
+
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable Long id) {
+        service.deleteRecommendation(id);
+        return "Recommendation deleted successfully";
+    }
 }
