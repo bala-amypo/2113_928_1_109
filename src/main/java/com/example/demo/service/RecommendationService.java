@@ -1,13 +1,9 @@
 package com.example.demo.service;
 
-import java.util.List;
 import com.example.demo.entity.RecommendationEntity;
-import com.example.demo.entity.UserProfileEntity;
+import java.util.List;
 
 public interface RecommendationService {
-
-    RecommendationEntity recommendBestCard(UserProfileEntity user,
-                                            Double purchaseAmount);
-
-    List<RecommendationEntity> getAllRecommendations();
+    RecommendationEntity save(RecommendationEntity entity);
+    List<RecommendationEntity> getAll();
 }
