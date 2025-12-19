@@ -1,44 +1,28 @@
 package com.example.demo.controller;
 
-import java.util.List;
-import org.springframework.web.bind.annotation.*;
 import com.example.demo.entity.RewardRuleEntity;
 import com.example.demo.service.RewardRuleService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/reward-rules")
 public class RewardRuleController {
 
-    private final RewardRuleService rewardRuleService;
+    private final RewardRuleService service;
 
-    public RewardRuleController(RewardRuleService rewardRuleService) {
-        this.rewardRuleService = rewardRuleService;
+    public RewardRuleController(RewardRuleService service) {
+        this.service = service;
     }
 
     @PostMapping
-    public RewardRuleEntity create(@RequestBody RewardRuleEntity rule) {
-        return rewardRuleService.createRule(rule);
+    public RewardRuleEntity save(@RequestBody RewardRuleEntity entity) {
+        return service.save(entity);
     }
 
     @GetMapping
     public List<RewardRuleEntity> getAll() {
-        return rewardRuleService.getAllRules();
-    }
-
-    @GetMapping("/{id}")
-    public RewardRuleEntity getById(@PathVariable Long id) {
-        return rewardRuleService.getRuleById(id);
-    }
-
-    @PutMapping("/{id}")
-    public RewardRuleEntity update(@PathVariable Long id,
-                                   @RequestBody RewardRuleEntity rule) {
-        return rewardRuleService.updateRule(id, rule);
-    }
-
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable Long id) {
-        rewardRuleService.deleteRule(id);
-        return "Reward rule deleted successfully ✅";
+        return service.getAll();
     }
 }

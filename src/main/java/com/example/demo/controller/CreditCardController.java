@@ -1,41 +1,28 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
+import com.example.demo.entity.CreditCardEntity;
+import com.example.demo.service.CreditCardService;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.entity.CreditCardEntity;
-import com.example.demo.repository.CreditCardRepository;
+import java.util.List;
 
 @RestController
 @RequestMapping("/credit-cards")
 public class CreditCardController {
 
-    private final CreditCardRepository creditCardRepository;
+    private final CreditCardService creditCardService;
 
-    public CreditCardController(CreditCardRepository creditCardRepository) {
-        this.creditCardRepository = creditCardRepository;
+    public CreditCardController(CreditCardService creditCardService) {
+        this.creditCardService = creditCardService;
     }
 
     @PostMapping
-    public CreditCardEntity addCard(@RequestBody CreditCardEntity card) {
-        return creditCardRepository.save(card);
+    public CreditCardEntity save(@RequestBody CreditCardEntity card) {
+        return creditCardService.save(card);
     }
 
     @GetMapping
-    public List<CreditCardEntity> getAllCards() {
-        return creditCardRepository.findAll();
-    }
-
-    @GetMapping("/{id}")
-    public CreditCardEntity getCardById(@PathVariable Long id) {
-        return creditCardRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Credit card not found"));
-    }
-
-    @DeleteMapping("/{id}")
-    public String deleteCard(@PathVariable Long id) {
-        creditCardRepository.deleteById(id);
-        return "Credit card deleted successfully ✅";
+    public List<CreditCardEntity> getAll() {
+        return creditCardService.getAll();
     }
 }

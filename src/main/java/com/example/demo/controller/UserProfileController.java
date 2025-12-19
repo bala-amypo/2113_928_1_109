@@ -1,35 +1,28 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
+import com.example.demo.entity.UserProfileEntity;
+import com.example.demo.service.UserProfileService;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.entity.UserProfileEntity;
-import com.example.demo.repository.UserProfileRepository;
+import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/user-profiles")
 public class UserProfileController {
 
-    private final UserProfileRepository userRepo;
+    private final UserProfileService service;
 
-    public UserProfileController(UserProfileRepository userRepo) {
-        this.userRepo = userRepo;
+    public UserProfileController(UserProfileService service) {
+        this.service = service;
     }
 
     @PostMapping
-    public UserProfileEntity createUser(@RequestBody UserProfileEntity user) {
-        return userRepo.save(user);
+    public UserProfileEntity save(@RequestBody UserProfileEntity entity) {
+        return service.save(entity);
     }
 
     @GetMapping
-    public List<UserProfileEntity> getAllUsers() {
-        return userRepo.findAll();
-    }
-
-    @GetMapping("/{id}")
-    public UserProfileEntity getUserById(@PathVariable Long id) {
-        return userRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    public List<UserProfileEntity> getAll() {
+        return service.getAll();
     }
 }

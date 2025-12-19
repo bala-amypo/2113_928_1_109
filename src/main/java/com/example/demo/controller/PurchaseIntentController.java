@@ -1,38 +1,28 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
+import com.example.demo.entity.PurchaseIntentEntity;
+import com.example.demo.service.PurchaseIntentService;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.entity.PurchaseIntentity;
-import com.example.demo.repository.PurchaseIntentityRepository;
+import java.util.List;
 
 @RestController
-@RequestMapping("/purchases")
-public class PurchaseIntentityController {
+@RequestMapping("/purchase-intents")
+public class PurchaseIntentController {
 
-    private final PurchaseIntentityRepository purchaseRepo;
+    private final PurchaseIntentService service;
 
-    public PurchaseIntentityController(PurchaseIntentityRepository purchaseRepo) {
-        this.purchaseRepo = purchaseRepo;
+    public PurchaseIntentController(PurchaseIntentService service) {
+        this.service = service;
     }
 
     @PostMapping
-    public PurchaseIntentity addPurchase(@RequestBody PurchaseIntentity purchase) {
-        if (purchase.getAmount() <= 0) {
-            throw new RuntimeException("Purchase amount must be greater than zero");
-        }
-        return purchaseRepo.save(purchase);
+    public PurchaseIntentEntity save(@RequestBody PurchaseIntentEntity entity) {
+        return service.save(entity);
     }
 
     @GetMapping
-    public List<PurchaseIntentity> getAllPurchases() {
-        return purchaseRepo.findAll();
-    }
-
-    @GetMapping("/{id}")
-    public PurchaseIntentity getPurchaseById(@PathVariable Long id) {
-        return purchaseRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Purchase not found"));
+    public List<PurchaseIntentEntity> getAll() {
+        return service.getAll();
     }
 }

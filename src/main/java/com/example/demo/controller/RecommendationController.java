@@ -1,36 +1,28 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
+import com.example.demo.entity.RecommendationEntity;
+import com.example.demo.service.RecommendationService;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.entity.RecommendationEntity;
-import com.example.demo.repository.RecommendationRepository;
+import java.util.List;
 
 @RestController
 @RequestMapping("/recommendations")
 public class RecommendationController {
 
-    private final RecommendationRepository recommendationRepo;
+    private final RecommendationService service;
 
-    public RecommendationController(RecommendationRepository recommendationRepo) {
-        this.recommendationRepo = recommendationRepo;
+    public RecommendationController(RecommendationService service) {
+        this.service = service;
     }
 
     @PostMapping
-    public RecommendationEntity saveRecommendation(
-            @RequestBody RecommendationEntity recommendation) {
-        return recommendationRepo.save(recommendation);
+    public RecommendationEntity save(@RequestBody RecommendationEntity entity) {
+        return service.save(entity);
     }
 
     @GetMapping
-    public List<RecommendationEntity> getAllRecommendations() {
-        return recommendationRepo.findAll();
-    }
-
-    @GetMapping("/{id}")
-    public RecommendationEntity getRecommendationById(@PathVariable Long id) {
-        return recommendationRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Recommendation not found"));
+    public List<RecommendationEntity> getAll() {
+        return service.getAll();
     }
 }
