@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.CreditCardEntity;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.CreditCardRepository;
 import com.example.demo.service.CreditCardService;
 import org.springframework.stereotype.Service;
@@ -17,12 +18,32 @@ public class CreditCardServiceImpl implements CreditCardService {
     }
 
     @Override
-    public CreditCardEntity save(CreditCardEntity entity) {
-        return repository.save(entity);
+    public CreditCardEntity createCard(CreditCardEntity card) {
+        return repository.save(card);
     }
 
     @Override
-    public List<CreditCardEntity> getAll() {
+    public CreditCardEntity getCardById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Card not found with id " + id));
+    }
+
+    @Override
+    public List<CreditCardEntity> getAllCards() {
         return repository.findAll();
+    }
+
+    @Override
+    public CreditCardEntity updateCard(Long id, CreditCardEntity card) {
+        CreditCardEntity existing = getCardById(id);
+        existing.setCardName(card.getCardName());
+        existing.setIssuer(card.getIssuer());
+        existing.setCardType(card.getCardType());
+        return repository.save(existing);
+    }
+
+    @Override
+    public void deleteCard(Long id) {
+        repository.delete(getCardById(id));
     }
 }
