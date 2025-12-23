@@ -5,6 +5,7 @@ import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.UserProfileRepository;
 import com.example.demo.service.UserProfileService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,22 +19,26 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
+    @Transactional
     public UserProfileEntity createUser(UserProfileEntity user) {
         return repository.save(user);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UserProfileEntity getUserById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id " + id));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<UserProfileEntity> getAllUsers() {
         return repository.findAll();
     }
 
     @Override
+    @Transactional
     public UserProfileEntity updateUser(Long id, UserProfileEntity user) {
         UserProfileEntity existing = getUserById(id);
         existing.setUsername(user.getUsername());
@@ -44,6 +49,7 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
+    @Transactional
     public void deleteUser(Long id) {
         repository.delete(getUserById(id));
     }
