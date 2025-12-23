@@ -5,12 +5,10 @@ import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.PurchaseIntentRepository;
 import com.example.demo.service.PurchaseIntentService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-@Transactional
 public class PurchaseIntentServiceImpl implements PurchaseIntentService {
 
     private final PurchaseIntentRepository repository;
@@ -25,15 +23,12 @@ public class PurchaseIntentServiceImpl implements PurchaseIntentService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public PurchaseIntentEntity getIntentById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Purchase intent not found with id " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Purchase intent not found with id " + id));
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<PurchaseIntentEntity> getAllIntents() {
         return repository.findAll();
     }
