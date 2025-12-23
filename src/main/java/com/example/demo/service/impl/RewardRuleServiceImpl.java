@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class RewardRuleServiceImpl implements RewardRuleService {
 
     private final RewardRuleRepository repository;
@@ -19,7 +20,6 @@ public class RewardRuleServiceImpl implements RewardRuleService {
     }
 
     @Override
-    @Transactional
     public RewardRuleEntity createRule(RewardRuleEntity rule) {
         return repository.save(rule);
     }
@@ -28,7 +28,8 @@ public class RewardRuleServiceImpl implements RewardRuleService {
     @Transactional(readOnly = true)
     public RewardRuleEntity getRuleById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Reward rule not found with id " + id));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Reward rule not found with id " + id));
     }
 
     @Override
@@ -38,7 +39,6 @@ public class RewardRuleServiceImpl implements RewardRuleService {
     }
 
     @Override
-    @Transactional
     public RewardRuleEntity updateRule(Long id, RewardRuleEntity rule) {
         RewardRuleEntity existing = getRuleById(id);
         existing.setCategory(rule.getCategory());
@@ -48,7 +48,6 @@ public class RewardRuleServiceImpl implements RewardRuleService {
     }
 
     @Override
-    @Transactional
     public void deleteRule(Long id) {
         repository.delete(getRuleById(id));
     }

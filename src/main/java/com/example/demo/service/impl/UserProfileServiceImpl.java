@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class UserProfileServiceImpl implements UserProfileService {
 
     private final UserProfileRepository repository;
@@ -19,7 +20,6 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
-    @Transactional
     public UserProfileEntity createUser(UserProfileEntity user) {
         return repository.save(user);
     }
@@ -28,7 +28,8 @@ public class UserProfileServiceImpl implements UserProfileService {
     @Transactional(readOnly = true)
     public UserProfileEntity getUserById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with id " + id));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("User not found with id " + id));
     }
 
     @Override
@@ -38,7 +39,6 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
-    @Transactional
     public UserProfileEntity updateUser(Long id, UserProfileEntity user) {
         UserProfileEntity existing = getUserById(id);
         existing.setUsername(user.getUsername());
@@ -49,7 +49,6 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
-    @Transactional
     public void deleteUser(Long id) {
         repository.delete(getUserById(id));
     }
