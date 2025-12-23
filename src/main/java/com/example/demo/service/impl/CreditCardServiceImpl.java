@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class CreditCardServiceImpl implements CreditCardService {
 
     private final CreditCardRepository repository;
@@ -19,7 +20,6 @@ public class CreditCardServiceImpl implements CreditCardService {
     }
 
     @Override
-    @Transactional
     public CreditCardEntity createCard(CreditCardEntity card) {
         return repository.save(card);
     }
@@ -28,7 +28,8 @@ public class CreditCardServiceImpl implements CreditCardService {
     @Transactional(readOnly = true)
     public CreditCardEntity getCardById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Card not found with id " + id));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Card not found with id " + id));
     }
 
     @Override
@@ -38,7 +39,6 @@ public class CreditCardServiceImpl implements CreditCardService {
     }
 
     @Override
-    @Transactional
     public CreditCardEntity updateCard(Long id, CreditCardEntity card) {
         CreditCardEntity existing = getCardById(id);
         existing.setCardName(card.getCardName());
@@ -48,7 +48,6 @@ public class CreditCardServiceImpl implements CreditCardService {
     }
 
     @Override
-    @Transactional
     public void deleteCard(Long id) {
         repository.delete(getCardById(id));
     }

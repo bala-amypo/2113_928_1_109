@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class PurchaseIntentServiceImpl implements PurchaseIntentService {
 
     private final PurchaseIntentRepository repository;
@@ -19,7 +20,6 @@ public class PurchaseIntentServiceImpl implements PurchaseIntentService {
     }
 
     @Override
-    @Transactional
     public PurchaseIntentEntity createIntent(PurchaseIntentEntity intent) {
         return repository.save(intent);
     }
@@ -28,7 +28,8 @@ public class PurchaseIntentServiceImpl implements PurchaseIntentService {
     @Transactional(readOnly = true)
     public PurchaseIntentEntity getIntentById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Purchase intent not found with id " + id));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Purchase intent not found with id " + id));
     }
 
     @Override
@@ -38,7 +39,6 @@ public class PurchaseIntentServiceImpl implements PurchaseIntentService {
     }
 
     @Override
-    @Transactional
     public PurchaseIntentEntity updateIntent(Long id, PurchaseIntentEntity intent) {
         PurchaseIntentEntity existing = getIntentById(id);
         existing.setAmount(intent.getAmount());
@@ -48,7 +48,6 @@ public class PurchaseIntentServiceImpl implements PurchaseIntentService {
     }
 
     @Override
-    @Transactional
     public void deleteIntent(Long id) {
         repository.delete(getIntentById(id));
     }

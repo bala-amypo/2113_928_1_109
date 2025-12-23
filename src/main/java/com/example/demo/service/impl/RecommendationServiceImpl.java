@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class RecommendationServiceImpl implements RecommendationService {
 
     private final RecommendationRepository repository;
@@ -19,7 +20,6 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     @Override
-    @Transactional
     public RecommendationEntity createRecommendation(RecommendationEntity recommendation) {
         return repository.save(recommendation);
     }
@@ -28,7 +28,8 @@ public class RecommendationServiceImpl implements RecommendationService {
     @Transactional(readOnly = true)
     public RecommendationEntity getRecommendationById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Recommendation not found with id " + id));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Recommendation not found with id " + id));
     }
 
     @Override
@@ -38,7 +39,6 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     @Override
-    @Transactional
     public void deleteRecommendation(Long id) {
         repository.delete(getRecommendationById(id));
     }
