@@ -17,22 +17,23 @@ public class CreditCardController {
     }
 
     @PostMapping
-    public CreditCardRecord create(@RequestBody CreditCardRecord card) {
+    public CreditCardRecord add(@RequestBody CreditCardRecord card) {
         return service.addCard(card);
     }
 
-    @GetMapping("/{id}")
-    public CreditCardRecord getById(@PathVariable Long id) {
-        return service.getAllCards()
-                .stream()
-                .filter(c -> c.getId().equals(id))
-                .findFirst()
-                .orElseThrow();
+    @PutMapping("/{id}")
+    public CreditCardRecord update(@PathVariable Long id, @RequestBody CreditCardRecord card) {
+        return service.updateCard(id, card);
     }
 
     @GetMapping("/user/{userId}")
     public List<CreditCardRecord> getByUser(@PathVariable Long userId) {
         return service.getCardsByUser(userId);
+    }
+
+    @GetMapping("/{id}")
+    public CreditCardRecord getById(@PathVariable Long id) {
+        return service.getCardById(id);
     }
 
     @GetMapping

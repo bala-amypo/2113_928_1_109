@@ -21,13 +21,23 @@ public class UserProfileController {
         return service.createUser(user);
     }
 
+    @GetMapping("/{id}")
+    public UserProfile getById(@PathVariable Long id) {
+        return service.getUserById(id);
+    }
+
     @GetMapping
     public List<UserProfile> getAll() {
         return service.getAllUsers();
     }
 
-    @GetMapping("/{id}")
-    public UserProfile getById(@PathVariable Long id) {
-        return service.getUserById(id);
+    @PutMapping("/{id}/status")
+    public UserProfile updateStatus(@PathVariable Long id, @RequestParam boolean active) {
+        return service.updateUserStatus(id, active);
+    }
+
+    @GetMapping("/lookup/{userId}")
+    public UserProfile getByUserId(@PathVariable String userId) {
+        return service.findByUserId(userId);
     }
 }
