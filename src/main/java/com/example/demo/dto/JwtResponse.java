@@ -12,15 +12,7 @@ public class JwtResponse {
         this.token = token;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
- 
-    public String getEmail() {
-        return email;
-    }
- 
-    public String getToken() {
-        return token;
-    }
+    public Long getUserId() { return userId; }
+    public String getEmail() { return email; }
+    public String getToken() { return token; }
 }
