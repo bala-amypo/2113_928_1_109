@@ -11,7 +11,10 @@ import com.example.demo.service.UserProfileService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.web.bind.annotation.*;
 
+@RestController
+@RequestMapping("/api/auth")
 public class AuthController {
 
     private final UserProfileService userService;
@@ -29,12 +32,9 @@ public class AuthController {
         this.jwtUtil = jwtUtil;
     }
 
-    /* =========================
-       REGISTER  (TEST 55)
-       ========================= */
-    public ResponseEntity<JwtResponse> register(RegisterRequest request) {
+    @PostMapping("/register")
+    public ResponseEntity<JwtResponse> register(@RequestBody RegisterRequest request) {
 
-        // ✔ check email exists
         if (userRepo.existsByEmail(request.getEmail())) {
             throw new BadRequestException("Email already exists");
         }
@@ -45,10 +45,8 @@ public class AuthController {
         user.setPassword(request.getPassword());
         user.setRole(request.getRole());
 
-        // ✔ save user
         UserProfile saved = userService.createUser(user);
 
-        // ✔ generate token
         String token = jwtUtil.generateToken(
                 saved.getId(),
                 saved.getEmail(),
@@ -60,12 +58,9 @@ public class AuthController {
         );
     }
 
-    /* =========================
-       LOGIN  (TEST 56)
-       ========================= */
-    public ResponseEntity<JwtResponse> login(LoginRequest request) {
+    @PostMapping("/login")
+    public ResponseEntity<JwtResponse> login(@RequestBody LoginRequest request) {
 
-        // ✔ authenticate via AuthenticationManager
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -73,11 +68,9 @@ public class AuthController {
                 )
         );
 
-        // ✔ load user by email
         UserProfile user = userRepo.findByEmail(request.getEmail())
                 .orElseThrow(() -> new BadRequestException("Invalid login"));
 
-        // ✔ generate token
         String token = jwtUtil.generateToken(
                 user.getId(),
                 user.getEmail(),
