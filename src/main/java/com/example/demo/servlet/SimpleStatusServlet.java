@@ -5,12 +5,18 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 public class SimpleStatusServlet extends HttpServlet {
 
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setStatus(HttpServletResponse.SC_OK);
-        resp.getWriter().write("OK");
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.setContentType("text/plain");
+
+        PrintWriter writer = response.getWriter();
+        writer.write("Credit Card Reward Maximizer is running");
+        writer.flush();
     }
 }
