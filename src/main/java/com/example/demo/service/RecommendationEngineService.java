@@ -7,6 +7,8 @@ public interface RecommendationEngineService {
 
     RecommendationRecord generateRecommendation(Long intentId);
 
+    RecommendationRecord getRecommendationById(Long id);
+
     List<RecommendationRecord> getRecommendationsByUser(Long userId);
 
     List<RecommendationRecord> getAllRecommendations();

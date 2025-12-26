@@ -7,6 +7,8 @@ public interface PurchaseIntentService {
 
     PurchaseIntentRecord createIntent(PurchaseIntentRecord intent);
 
+    PurchaseIntentRecord getIntentById(Long id);
+
     List<PurchaseIntentRecord> getIntentsByUser(Long userId);
 
     List<PurchaseIntentRecord> getAllIntents();

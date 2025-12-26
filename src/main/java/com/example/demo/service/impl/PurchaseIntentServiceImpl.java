@@ -1,9 +1,11 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.PurchaseIntentRecord;
+import com.example.demo.exception.BadRequestException;
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.PurchaseIntentRecordRepository;
 import com.example.demo.service.PurchaseIntentService;
-import org.springframework.stereotype.Service;   // ✅ REQUIRED
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -18,7 +20,16 @@ public class PurchaseIntentServiceImpl implements PurchaseIntentService {
 
     @Override
     public PurchaseIntentRecord createIntent(PurchaseIntentRecord intent) {
+        if (intent.getAmount() == null || intent.getAmount() <= 0) {
+            throw new BadRequestException("Amount must be > 0");
+        }
         return repo.save(intent);
+    }
+
+    @Override
+    public PurchaseIntentRecord getIntentById(Long id) {
+        return repo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Intent not found"));
     }
 
     @Override

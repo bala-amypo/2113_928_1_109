@@ -7,12 +7,10 @@ import com.example.demo.repository.*;
 import com.example.demo.service.RecommendationEngineService;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
 
-@Service 
-public class RecommendationEngineServiceImpl
-        implements RecommendationEngineService {
+@Service
+public class RecommendationEngineServiceImpl implements RecommendationEngineService {
 
     private final PurchaseIntentRecordRepository intentRepo;
     private final UserProfileRepository userRepo;
@@ -37,48 +35,46 @@ public class RecommendationEngineServiceImpl
     @Override
     public RecommendationRecord generateRecommendation(Long intentId) {
 
-        // 1. Fetch intent
         PurchaseIntentRecord intent = intentRepo.findById(intentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Intent not found"));
 
-        // 2. Fetch user
         UserProfile user = userRepo.findById(intent.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        // 3. Fetch active cards
-        List<CreditCardRecord> cards =
-                cardRepo.findActiveCardsByUser(user.getId());
-
+        List<CreditCardRecord> cards = cardRepo.findActiveCardsByUser(user.getId());
         if (cards.isEmpty()) {
             throw new BadRequestException("No active cards");
         }
 
-        // 4–6. Evaluate rules & pick best reward
-        CreditCardRecord bestCard = null;
-        double bestReward = 0.0;
+        CreditCardRecord best = null;
+        double bestReward = 0;
 
         for (CreditCardRecord card : cards) {
             List<RewardRule> rules =
-                    ruleRepo.findActiveRulesForCardCategory(
-                            card.getId(), intent.getCategory());
+                    ruleRepo.findActiveRulesForCardCategory(card.getId(), intent.getCategory());
 
             for (RewardRule rule : rules) {
                 double reward = intent.getAmount() * rule.getMultiplier();
                 if (reward > bestReward) {
                     bestReward = reward;
-                    bestCard = card;
+                    best = card;
                 }
             }
         }
 
-        // 7. Save recommendation
         RecommendationRecord rec = new RecommendationRecord();
         rec.setUserId(user.getId());
         rec.setPurchaseIntentId(intent.getId());
-        rec.setRecommendedCardId(bestCard.getId());
+        rec.setRecommendedCardId(best.getId());
         rec.setExpectedRewardValue(bestReward);
 
         return recRepo.save(rec);
+    }
+
+    @Override
+    public RecommendationRecord getRecommendationById(Long id) {
+        return recRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Recommendation not found"));
     }
 
     @Override
