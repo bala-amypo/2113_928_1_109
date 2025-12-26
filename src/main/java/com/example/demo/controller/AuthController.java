@@ -33,34 +33,27 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<JwtResponse> register(@RequestBody RegisterRequest request) {
-
+    public JwtResponse register(@RequestBody RegisterRequest request) {
         if (userRepo.existsByEmail(request.getEmail())) {
-            throw new BadRequestException("Email already exists");
+            throw new RuntimeException("Email already exists");
         }
 
         UserProfile user = new UserProfile();
-        user.setFullName(request.getFullName());
         user.setEmail(request.getEmail());
         user.setPassword(request.getPassword());
         user.setRole(request.getRole());
 
         UserProfile saved = userService.createUser(user);
 
-        String token = jwtUtil.generateToken(
+        return new JwtResponse(
                 saved.getId(),
                 saved.getEmail(),
-                saved.getRole()
-        );
-
-        return ResponseEntity.ok(
-                new JwtResponse(saved.getId(), saved.getEmail(), token)
+                jwtUtil.generateToken(saved.getId(), saved.getEmail(), saved.getRole())
         );
     }
 
     @PostMapping("/login")
-    public ResponseEntity<JwtResponse> login(@RequestBody LoginRequest request) {
-
+    public JwtResponse login(@RequestBody LoginRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -68,17 +61,12 @@ public class AuthController {
                 )
         );
 
-        UserProfile user = userRepo.findByEmail(request.getEmail())
-                .orElseThrow(() -> new BadRequestException("Invalid login"));
+        UserProfile user = userRepo.findByEmail(request.getEmail()).orElseThrow();
 
-        String token = jwtUtil.generateToken(
+        return new JwtResponse(
                 user.getId(),
                 user.getEmail(),
-                user.getRole()
-        );
-
-        return ResponseEntity.ok(
-                new JwtResponse(user.getId(), user.getEmail(), token)
+                jwtUtil.generateToken(user.getId(), user.getEmail(), user.getRole())
         );
     }
 }

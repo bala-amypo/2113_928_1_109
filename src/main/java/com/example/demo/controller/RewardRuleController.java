@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/rewards")
 public class RewardRuleController {
 
-    private final RewardRuleService ruleService;
+    private final RewardRuleService service;
 
-    public RewardRuleController(RewardRuleService ruleService) {
-        this.ruleService = ruleService;
+    public RewardRuleController(RewardRuleService service) {
+        this.service = service;
     }
 
     @GetMapping("/test")
     public String test() {
-        return "RewardRule API working";
+        return "Reward rule service working";
     }
 }

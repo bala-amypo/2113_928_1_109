@@ -7,14 +7,24 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/cards")
 public class CreditCardController {
 
-    private final CreditCardService cardService;
+    private final CreditCardService service;
 
-    public CreditCardController(CreditCardService cardService) {
-        this.cardService = cardService;
+    public CreditCardController(CreditCardService service) {
+        this.service = service;
+    }
+
+    @PostMapping
+    public CreditCardRecord create(@RequestBody CreditCardRecord card) {
+        return service.addCard(card);
+    }
+
+    @GetMapping
+    public List<CreditCardRecord> getAll() {
+        return service.getAllCards();
     }
 
     @GetMapping("/test")
     public String test() {
-        return "CreditCard API working";
+        return "Credit card service working";
     }
 }
