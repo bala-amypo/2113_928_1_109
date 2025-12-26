@@ -10,24 +10,24 @@ import java.util.List;
 @RequestMapping("/api/users")
 public class UserProfileController {
 
-    private final UserProfileService userService;
+    private final UserProfileService service;
 
-    public UserProfileController(UserProfileService userService) {
-        this.userService = userService;
+    public UserProfileController(UserProfileService service) {
+        this.service = service;
     }
 
     @PostMapping
-    public UserProfile createUser(@RequestBody UserProfile user) {
-        return userService.createUser(user);
+    public UserProfile create(@RequestBody UserProfile user) {
+        return service.createUser(user);
     }
 
     @GetMapping
-    public List<UserProfile> getAllUsers() {
-        return userService.getAllUsers();
+    public List<UserProfile> getAll() {
+        return service.getAllUsers();
     }
 
     @GetMapping("/{id}")
-    public UserProfile getUserById(@PathVariable Long id) {
-        return userService.getUserById(id);
+    public UserProfile getById(@PathVariable Long id) {
+        return service.getUserById(id);
     }
 }

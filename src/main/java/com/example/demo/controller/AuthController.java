@@ -4,11 +4,9 @@ import com.example.demo.dto.JwtResponse;
 import com.example.demo.dto.LoginRequest;
 import com.example.demo.dto.RegisterRequest;
 import com.example.demo.entity.UserProfile;
-import com.example.demo.exception.BadRequestException;
 import com.example.demo.repository.UserProfileRepository;
 import com.example.demo.security.JwtUtil;
 import com.example.demo.service.UserProfileService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
@@ -19,25 +17,21 @@ public class AuthController {
 
     private final UserProfileService userService;
     private final UserProfileRepository userRepo;
-    private final AuthenticationManager authenticationManager;
+    private final AuthenticationManager authManager;
     private final JwtUtil jwtUtil;
 
     public AuthController(UserProfileService userService,
                           UserProfileRepository userRepo,
-                          AuthenticationManager authenticationManager,
+                          AuthenticationManager authManager,
                           JwtUtil jwtUtil) {
         this.userService = userService;
         this.userRepo = userRepo;
-        this.authenticationManager = authenticationManager;
+        this.authManager = authManager;
         this.jwtUtil = jwtUtil;
     }
 
     @PostMapping("/register")
     public JwtResponse register(@RequestBody RegisterRequest request) {
-        if (userRepo.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Email already exists");
-        }
-
         UserProfile user = new UserProfile();
         user.setEmail(request.getEmail());
         user.setPassword(request.getPassword());
@@ -54,7 +48,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public JwtResponse login(@RequestBody LoginRequest request) {
-        authenticationManager.authenticate(
+        authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getPassword()
@@ -66,7 +60,7 @@ public class AuthController {
         return new JwtResponse(
                 user.getId(),
                 user.getEmail(),
-                jwtUtil.generateToken(user.getId(), user.getEmail(), user.getRole())
+                jwtUtil.generateToken(user.getId(), user.getRole())
         );
     }
 }

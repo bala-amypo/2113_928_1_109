@@ -26,6 +26,11 @@ public class CreditCardController {
         return service.getAllCards();
     }
 
+    @GetMapping("/user/{userId}")
+    public List<CreditCardRecord> getByUser(@PathVariable Long userId) {
+        return service.getCardsByUser(userId);
+    }
+
     @GetMapping("/test")
     public String test() {
         return "Credit card service working";

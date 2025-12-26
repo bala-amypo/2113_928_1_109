@@ -26,6 +26,11 @@ public class PurchaseIntentController {
         return service.getAllIntents();
     }
 
+    @GetMapping("/user/{userId}")
+    public List<PurchaseIntentRecord> getByUser(@PathVariable Long userId) {
+        return service.getIntentsByUser(userId);
+    }
+
     @GetMapping("/test")
     public String test() {
         return "Purchase intent service working";
