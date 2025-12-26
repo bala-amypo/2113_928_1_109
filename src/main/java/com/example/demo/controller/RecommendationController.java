@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/recommendations")
 public class RecommendationController {
 
-    private final RecommendationEngineService recommendationService;
+    private final RecommendationService service;
 
-    public RecommendationController(RecommendationEngineService recommendationService) {
-        this.recommendationService = recommendationService;
+    public RecommendationController(RecommendationService service) {
+        this.service = service;
     }
 
     @GetMapping("/test")
     public String test() {
-        return "Recommendation API working";
+        return "Recommendation service working";
     }
 }
