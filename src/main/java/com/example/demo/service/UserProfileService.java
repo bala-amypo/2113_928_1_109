@@ -9,5 +9,9 @@ public interface UserProfileService {
 
     UserProfile getUserById(Long id);
 
+    UserProfile findByUserId(String userId);
+
     List<UserProfile> getAllUsers();
+
+    UserProfile updateUserStatus(Long id, boolean active);
 }

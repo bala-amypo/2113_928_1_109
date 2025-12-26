@@ -7,7 +7,7 @@ public interface CreditCardService {
 
     CreditCardRecord addCard(CreditCardRecord card);
 
-    CreditCardRecord updateCard(Long id, CreditCardRecord card);
+    CreditCardRecord updateCard(Long id, CreditCardRecord updated);
 
     CreditCardRecord getCardById(Long id);
 

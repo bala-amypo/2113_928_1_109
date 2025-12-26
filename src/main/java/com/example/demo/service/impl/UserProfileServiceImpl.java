@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.UserProfile;
+import com.example.demo.exception.BadRequestException;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.UserProfileRepository;
 import com.example.demo.service.UserProfileService;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service   // ⭐ THIS WAS MISSING
+@Service
 public class UserProfileServiceImpl implements UserProfileService {
 
     private final UserProfileRepository repo;
@@ -23,6 +24,14 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Override
     public UserProfile createUser(UserProfile user) {
+        if (repo.existsByEmail(user.getEmail())) {
+            throw new BadRequestException("Email already exists");
+        }
+
+        if (user.getUserId() != null && repo.existsByUserId(user.getUserId())) {
+            throw new BadRequestException("UserId already exists");
+        }
+
         user.setPassword(encoder.encode(user.getPassword()));
         return repo.save(user);
     }
@@ -34,7 +43,20 @@ public class UserProfileServiceImpl implements UserProfileService {
     }
 
     @Override
+    public UserProfile findByUserId(String userId) {
+        return repo.findByUserId(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    }
+
+    @Override
     public List<UserProfile> getAllUsers() {
         return repo.findAll();
+    }
+
+    @Override
+    public UserProfile updateUserStatus(Long id, boolean active) {
+        UserProfile user = getUserById(id);
+        user.setActive(active);
+        return repo.save(user);
     }
 }
