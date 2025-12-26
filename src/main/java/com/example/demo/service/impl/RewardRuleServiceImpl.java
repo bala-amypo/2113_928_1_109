@@ -6,6 +6,7 @@ import com.example.demo.service.RewardRuleService;
 
 import java.util.List;
 
+@Service 
 public class RewardRuleServiceImpl implements RewardRuleService {
 
     private final RewardRuleRepository repo;

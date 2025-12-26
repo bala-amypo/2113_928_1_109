@@ -6,6 +6,7 @@ import com.example.demo.service.PurchaseIntentService;
 
 import java.util.List;
 
+@Service
 public class PurchaseIntentServiceImpl implements PurchaseIntentService {
 
     private final PurchaseIntentRecordRepository repo;

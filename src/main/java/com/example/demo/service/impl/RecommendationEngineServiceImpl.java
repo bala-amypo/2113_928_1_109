@@ -9,6 +9,7 @@ import com.example.demo.service.RecommendationEngineService;
 import java.util.Comparator;
 import java.util.List;
 
+@Service 
 public class RecommendationEngineServiceImpl
         implements RecommendationEngineService {
 
