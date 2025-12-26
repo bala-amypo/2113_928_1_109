@@ -26,6 +26,11 @@ public class RecommendationController {
         return service.getRecommendationsByUser(userId);
     }
 
+    @GetMapping("/{id}")
+    public RecommendationRecord getById(@PathVariable Long id) {
+        return service.getRecommendationById(id);
+    }
+
     @GetMapping
     public List<RecommendationRecord> getAll() {
         return service.getAllRecommendations();

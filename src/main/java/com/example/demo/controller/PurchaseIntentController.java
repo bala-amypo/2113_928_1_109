@@ -21,18 +21,14 @@ public class PurchaseIntentController {
         return service.createIntent(intent);
     }
 
-    @GetMapping("/{id}")
-    public PurchaseIntentRecord getById(@PathVariable Long id) {
-        return service.getAllIntents()
-                .stream()
-                .filter(i -> i.getId().equals(id))
-                .findFirst()
-                .orElseThrow();
-    }
-
     @GetMapping("/user/{userId}")
     public List<PurchaseIntentRecord> getByUser(@PathVariable Long userId) {
         return service.getIntentsByUser(userId);
+    }
+
+    @GetMapping("/{id}")
+    public PurchaseIntentRecord getById(@PathVariable Long id) {
+        return service.getIntentById(id);
     }
 
     @GetMapping
