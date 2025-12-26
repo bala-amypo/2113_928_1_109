@@ -16,13 +16,18 @@ public class UserProfileController {
         this.userService = userService;
     }
 
-    @GetMapping
-    public List<UserProfile> getAllUsers() {
-        return userService.getAllUsers();
+    @PostMapping
+    public UserProfile createUser(@RequestBody UserProfile user) {
+        return userService.createUser(user);
     }
 
     @GetMapping("/{id}")
-    public UserProfile getUserById(@PathVariable Long id) {
+    public UserProfile getUser(@PathVariable Long id) {
         return userService.getUserById(id);
+    }
+
+    @GetMapping
+    public List<UserProfile> getAllUsers() {
+        return userService.getAllUsers();
     }
 }
