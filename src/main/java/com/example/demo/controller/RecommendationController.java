@@ -16,14 +16,9 @@ public class RecommendationController {
         this.service = service;
     }
 
-    @PostMapping("/{intentId}")
+    @PostMapping("/generate/{intentId}")
     public RecommendationRecord generate(@PathVariable Long intentId) {
         return service.generateRecommendation(intentId);
-    }
-
-    @GetMapping
-    public List<RecommendationRecord> getAll() {
-        return service.getAllRecommendations();
     }
 
     @GetMapping("/user/{userId}")
@@ -31,8 +26,8 @@ public class RecommendationController {
         return service.getRecommendationsByUser(userId);
     }
 
-    @GetMapping("/test")
-    public String test() {
-        return "Recommendation service working";
+    @GetMapping
+    public List<RecommendationRecord> getAll() {
+        return service.getAllRecommendations();
     }
 }

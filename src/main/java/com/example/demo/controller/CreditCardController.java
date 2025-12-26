@@ -21,9 +21,13 @@ public class CreditCardController {
         return service.addCard(card);
     }
 
-    @GetMapping
-    public List<CreditCardRecord> getAll() {
-        return service.getAllCards();
+    @GetMapping("/{id}")
+    public CreditCardRecord getById(@PathVariable Long id) {
+        return service.getAllCards()
+                .stream()
+                .filter(c -> c.getId().equals(id))
+                .findFirst()
+                .orElseThrow();
     }
 
     @GetMapping("/user/{userId}")
@@ -31,8 +35,8 @@ public class CreditCardController {
         return service.getCardsByUser(userId);
     }
 
-    @GetMapping("/test")
-    public String test() {
-        return "Credit card service working";
+    @GetMapping
+    public List<CreditCardRecord> getAll() {
+        return service.getAllCards();
     }
 }

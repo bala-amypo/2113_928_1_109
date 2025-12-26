@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/purchase-intents")
+@RequestMapping("/api/intents")
 public class PurchaseIntentController {
 
     private final PurchaseIntentService service;
@@ -21,9 +21,13 @@ public class PurchaseIntentController {
         return service.createIntent(intent);
     }
 
-    @GetMapping
-    public List<PurchaseIntentRecord> getAll() {
-        return service.getAllIntents();
+    @GetMapping("/{id}")
+    public PurchaseIntentRecord getById(@PathVariable Long id) {
+        return service.getAllIntents()
+                .stream()
+                .filter(i -> i.getId().equals(id))
+                .findFirst()
+                .orElseThrow();
     }
 
     @GetMapping("/user/{userId}")
@@ -31,8 +35,8 @@ public class PurchaseIntentController {
         return service.getIntentsByUser(userId);
     }
 
-    @GetMapping("/test")
-    public String test() {
-        return "Purchase intent service working";
+    @GetMapping
+    public List<PurchaseIntentRecord> getAll() {
+        return service.getAllIntents();
     }
 }
