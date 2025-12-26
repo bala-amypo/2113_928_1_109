@@ -1,8 +1,3 @@
-package com.example.demo.controller;
-
-import com.example.demo.service.RewardRuleService;
-import org.springframework.web.bind.annotation.*;
-
 @RestController
 @RequestMapping("/api/rewards")
 public class RewardRuleController {

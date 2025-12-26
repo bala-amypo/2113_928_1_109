@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.CreditCard;
+import com.example.demo.entity.CreditCardRecord;
 import com.example.demo.service.CreditCardService;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,12 +17,12 @@ public class CreditCardController {
     }
 
     @PostMapping
-    public CreditCard create(@RequestBody CreditCard card) {
+    public CreditCardRecord create(@RequestBody CreditCardRecord card) {
         return service.addCard(card);
     }
 
     @GetMapping
-    public List<CreditCard> getAll() {
+    public List<CreditCardRecord> getAll() {
         return service.getAllCards();
     }
 

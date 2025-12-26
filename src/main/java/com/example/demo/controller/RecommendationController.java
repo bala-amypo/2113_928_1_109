@@ -1,15 +1,15 @@
 package com.example.demo.controller;
 
-import com.example.demo.service.RecommendationService;
+import com.example.demo.service.RecommendationEngineService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/recommendations")
 public class RecommendationController {
 
-    private final RecommendationService service;
+    private final RecommendationEngineService service;
 
-    public RecommendationController(RecommendationService service) {
+    public RecommendationController(RecommendationEngineService service) {
         this.service = service;
     }
 
