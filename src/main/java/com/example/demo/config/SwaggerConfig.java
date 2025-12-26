@@ -9,11 +9,11 @@ import org.springframework.context.annotation.Configuration;
 public class SwaggerConfig {
 
     @Bean
-    public OpenAPI customOpenAPI() {
+    public OpenAPI api() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Demo API")
-                        .version("1.0")
-                        .description("Swagger documentation"));
+                        .title("Credit Card Reward Maximizer API")
+                        .version("v1")
+                        .description("Reward engine & recommendation API"));
     }
 }
