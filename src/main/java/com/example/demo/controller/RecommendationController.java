@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.service.RecommendationEngineService;
+import com.example.demo.service.RecommendationService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

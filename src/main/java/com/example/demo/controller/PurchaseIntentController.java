@@ -1,7 +1,10 @@
 package com.example.demo.controller;
 
+import com.example.demo.entity.PurchaseIntent;
 import com.example.demo.service.PurchaseIntentService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/purchase-intents")
@@ -14,12 +17,12 @@ public class PurchaseIntentController {
     }
 
     @PostMapping
-    public PurchaseIntentRecord create(@RequestBody PurchaseIntentRecord intent) {
+    public PurchaseIntent create(@RequestBody PurchaseIntent intent) {
         return service.createIntent(intent);
     }
 
     @GetMapping
-    public List<PurchaseIntentRecord> getAll() {
+    public List<PurchaseIntent> getAll() {
         return service.getAllIntents();
     }
 

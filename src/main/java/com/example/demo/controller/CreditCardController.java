@@ -1,7 +1,10 @@
 package com.example.demo.controller;
 
+import com.example.demo.entity.CreditCard;
 import com.example.demo.service.CreditCardService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/cards")
@@ -14,12 +17,12 @@ public class CreditCardController {
     }
 
     @PostMapping
-    public CreditCardRecord create(@RequestBody CreditCardRecord card) {
+    public CreditCard create(@RequestBody CreditCard card) {
         return service.addCard(card);
     }
 
     @GetMapping
-    public List<CreditCardRecord> getAll() {
+    public List<CreditCard> getAll() {
         return service.getAllCards();
     }
 
