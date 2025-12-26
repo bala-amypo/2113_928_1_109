@@ -13,9 +13,16 @@ public class JwtUtil {
     private final Key key;
     private final long expirationMs;
 
+    // REQUIRED by tests
+    public JwtUtil(byte[] secret, long expirationMs) {
+        this.key = Keys.hmacShaKeyFor(secret);
+        this.expirationMs = expirationMs;
+    }
+
+    // REQUIRED for Spring Boot runtime
     public JwtUtil() {
         this.key = Keys.hmacShaKeyFor("MySuperSecretKeyForJwtToken123456".getBytes());
-        this.expirationMs = 1000 * 60 * 60; // 1 hour
+        this.expirationMs = 1000 * 60 * 60;
     }
 
     public String generateToken(Long userId, String email, String role) {
