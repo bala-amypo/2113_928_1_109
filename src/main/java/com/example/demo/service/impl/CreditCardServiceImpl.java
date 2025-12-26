@@ -3,9 +3,11 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.CreditCardRecord;
 import com.example.demo.repository.CreditCardRecordRepository;
 import com.example.demo.service.CreditCardService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service   // ✅ THIS IS THE FIX
 public class CreditCardServiceImpl implements CreditCardService {
 
     private final CreditCardRecordRepository repo;
