@@ -17,21 +17,22 @@ public class AuthController {
 
     private final UserProfileService userService;
     private final UserProfileRepository userRepo;
-    private final AuthenticationManager authManager;
+    private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
 
     public AuthController(UserProfileService userService,
                           UserProfileRepository userRepo,
-                          AuthenticationManager authManager,
+                          AuthenticationManager authenticationManager,
                           JwtUtil jwtUtil) {
         this.userService = userService;
         this.userRepo = userRepo;
-        this.authManager = authManager;
+        this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
     }
 
     @PostMapping("/register")
     public JwtResponse register(@RequestBody RegisterRequest request) {
+
         UserProfile user = new UserProfile();
         user.setEmail(request.getEmail());
         user.setPassword(request.getPassword());
@@ -42,25 +43,35 @@ public class AuthController {
         return new JwtResponse(
                 saved.getId(),
                 saved.getEmail(),
-                jwtUtil.generateToken(saved.getId(), saved.getEmail(), saved.getRole())
+                jwtUtil.generateToken(
+                        saved.getId(),
+                        saved.getEmail(),
+                        saved.getRole()
+                )
         );
     }
 
     @PostMapping("/login")
     public JwtResponse login(@RequestBody LoginRequest request) {
-        authManager.authenticate(
+
+        authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getPassword()
                 )
         );
 
-        UserProfile user = userRepo.findByEmail(request.getEmail()).orElseThrow();
+        UserProfile user = userRepo.findByEmail(request.getEmail())
+                .orElseThrow();
 
         return new JwtResponse(
                 user.getId(),
                 user.getEmail(),
-                jwtUtil.generateToken(user.getId(), user.getRole())
+                jwtUtil.generateToken(
+                        user.getId(),
+                        user.getEmail(),
+                        user.getRole()
+                )
         );
     }
 }
