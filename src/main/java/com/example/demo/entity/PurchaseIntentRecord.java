@@ -21,13 +21,13 @@ public class PurchaseIntentRecord {
 
     private LocalDateTime createdAt;
 
-    /* ================= Lifecycle ================= */
+    
     @PrePersist
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
     }
 
-    /* ================= Getters & Setters ================= */
+    
 
     public Long getId() {
         return id;

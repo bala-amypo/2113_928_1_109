@@ -27,7 +27,7 @@ public class UserProfile {
 
     private LocalDateTime createdAt;
 
-    /* ================= Lifecycle ================= */
+    
     @PrePersist
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
@@ -36,7 +36,7 @@ public class UserProfile {
         }
     }
 
-    /* ================= Getters & Setters ================= */
+    
 
     public Long getId() {
         return id;
